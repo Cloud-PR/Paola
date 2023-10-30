@@ -1,5 +1,11 @@
 package org.example;
 
+/*
+Excellent work! I tried breaking it and I could only check out books that are able to be checked out
+and check in books able to be checked in!
+I would prefer not to have to type the whole name of the book, but that's small.
+Excellent work Paola!
+ */
 
 import java.util.Scanner;
 
@@ -7,7 +13,8 @@ public class Main {
     public static void main(String[] args) {
         Book[] books = new Book[20];
 
-        books[0] = new Book(1, "9780593593806", "Spare", false, "");
+        //The new constructor makes for less typing since you know they'll be false and blank to start off with
+        books[0] = new Book(1, "9780593593806", "Spare");
         books[1] = new Book(2, "9781668001226", "It Starts with Us", false, "");
         books[2] = new Book(3, "9781501110368", "It Ends with Us", false, "");
         books[3] = new Book(4, "9783442178581", "Atomic Habits", false, "");
@@ -30,6 +37,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
+        //Good use of breaking things down into methods for cleaner and reuseable code
         while (true) {
 
             System.out.println("Welcome to The Neighborhood Library Home Screen!");
