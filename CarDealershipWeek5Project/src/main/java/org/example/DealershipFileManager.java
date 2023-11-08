@@ -13,9 +13,12 @@ import java.util.Scanner;
 //take the vehicle and add it to the inventoryList of the dealership
 //after the loop is finished, return the dealership
 public class DealershipFileManager {
-    DealershipFileManager(){
+    //needs the private keyword
+    private DealershipFileManager(){
 
     }
+
+    //good use of static
     public  static Dealership getDealership(){
         Dealership dealership = new Dealership("Discount Motors", "13579 Odd st.", "817-777-1234");
 

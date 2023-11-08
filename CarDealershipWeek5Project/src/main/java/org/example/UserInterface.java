@@ -100,6 +100,7 @@ public class UserInterface {
                     displayVehicles(vehicleList);
                     isGettingByPrice = false;
                 } else {
+                    //Would be nice to know why, small quibble
                     System.out.println("Please enter again");
                 }
             } catch (InputMismatchException ex) {
