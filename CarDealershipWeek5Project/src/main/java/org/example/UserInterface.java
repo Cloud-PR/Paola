@@ -316,7 +316,7 @@ public class UserInterface {
                 System.out.println("2. Lease");
 
                 int sellLeaseOption = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+                scanner.nextLine();
 
                 Contract contract = null;
 
@@ -354,7 +354,7 @@ public class UserInterface {
 
             boolean isFinanced = financeOption.equals("yes");
 
-            // Create a salesContract object
+
             return new salesContract(LocalDate.now(), customerName, customerEmail, vehicleToSell, isFinanced);
         } catch (InputMismatchException ex) {
             System.out.println("Invalid input. Please enter valid information.");
@@ -368,15 +368,13 @@ public class UserInterface {
         try {
             System.out.println("Enter the expected ending value (50% of the original price):");
             double expectedEndingValue = scanner.nextDouble();
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine();
 
-            // Validate the ending value
             if (expectedEndingValue < 0.5 * vehicleToLease.getPrice()) {
                 System.out.println("Invalid ending value. Must be at least 50% of the original price.");
                 return null;
             }
-
-            // Create a leaseContract object
+            
             return new leaseContract(LocalDate.now(), customerName, customerEmail, vehicleToLease, expectedEndingValue);
         } catch (InputMismatchException ex) {
             System.out.println("Invalid input. Please enter valid information.");
