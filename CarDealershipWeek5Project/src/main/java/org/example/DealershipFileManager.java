@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,13 +18,15 @@ public class DealershipFileManager {
 
     }
     public  static Dealership getDealership(){
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
         Dealership dealership = new Dealership("Discount Motors", "13579 Odd st.", "817-777-1234");
 
         try{
             FileInputStream fs = new FileInputStream("src/main/resources/Inventory.csv");
             Scanner scanner = new Scanner(fs);
-
             scanner.nextLine();
+
+
             String input;
             while(scanner.hasNextLine()){
                 input = scanner.nextLine();

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class UserInterface {
     private Dealership dealership;
@@ -28,6 +29,7 @@ public class UserInterface {
                 System.out.println("7. Get All Vehicles");
                 System.out.println("8. Add Vehicle");
                 System.out.println("9. Remove Vehicle");
+                System.out.println("10. Sell/Lease a vehicle");
                 System.out.println("99. Quit");
 
                 int userOption = scanner.nextInt();
@@ -59,6 +61,9 @@ public class UserInterface {
                         break;
                     case 9:
                         processRemoveVehicleRequest();
+                        break;
+                    case 10:
+                        processSellLeaseVehicle();
                         break;
                     case 99:
                         System.out.println("Goodbye!");
@@ -289,7 +294,97 @@ public class UserInterface {
             scanner.nextLine();
         }
     }
+    private void processSellLeaseVehicle(){
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.println("Enter name:");
+            String customerName = scanner.nextLine();
+
+            System.out.println("Enter email:");
+            String customerEmail = scanner.nextLine();
+
+            System.out.println("Enter the VIN of the vehicle you want to sell or lease:");
+            int vin = scanner.nextInt();
+            scanner.nextLine();
+
+            Vehicle vehicleToSellLease = dealership.getAllVehicles().get(vin);
+
+            if (vehicleToSellLease != null) {
+                System.out.println("Choose the option:");
+                System.out.println("1. Sell");
+                System.out.println("2. Lease");
+
+                int sellLeaseOption = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                Contract contract = null;
+
+                switch (sellLeaseOption) {
+                    case 1:
+                        contract = processSellOption(customerName, customerEmail, vehicleToSellLease);
+                        break;
+                    case 2:
+                        contract = processLeaseOption(customerName, customerEmail, vehicleToSellLease);
+                        break;
+                    default:
+                        System.out.println("Invalid option.");
+                        return;
+                }
+
+                if (contract != null) {
+                    ContractFileManager.saveContract(contract);
+                    dealership.removeVehicle(vehicleToSellLease);
+                    System.out.println("Vehicle sold or leased successfully.");
+                }
+            } else {
+                System.out.println("Vehicle not found with the given VIN.");
+            }
+        } catch (InputMismatchException ex) {
+            System.out.println("Invalid input. Please enter valid information.");
+            scanner.nextLine();
+        }
+    }
+    private Contract processSellOption(String customerName, String customerEmail, Vehicle vehicleToSell) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.println("Do you want to finance the sale? (yes/no)");
+            String financeOption = scanner.nextLine().toLowerCase();
+
+            boolean isFinanced = financeOption.equals("yes");
+
+            // Create a salesContract object
+            return new salesContract(LocalDate.now(), customerName, customerEmail, vehicleToSell, isFinanced);
+        } catch (InputMismatchException ex) {
+            System.out.println("Invalid input. Please enter valid information.");
+            return null;
+        }
+    }
+
+    private Contract processLeaseOption(String customerName, String customerEmail, Vehicle vehicleToLease) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.println("Enter the expected ending value (50% of the original price):");
+            double expectedEndingValue = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
+
+            // Validate the ending value
+            if (expectedEndingValue < 0.5 * vehicleToLease.getPrice()) {
+                System.out.println("Invalid ending value. Must be at least 50% of the original price.");
+                return null;
+            }
+
+            // Create a leaseContract object
+            return new leaseContract(LocalDate.now(), customerName, customerEmail, vehicleToLease, expectedEndingValue);
+        } catch (InputMismatchException ex) {
+            System.out.println("Invalid input. Please enter valid information.");
+            return null;
+        }
+    }
 
 }
+
 
 

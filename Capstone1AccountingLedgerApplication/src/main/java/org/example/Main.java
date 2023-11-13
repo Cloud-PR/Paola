@@ -100,4 +100,3 @@ public static void makePayment(Scanner scanner){
 }
 
 }
-

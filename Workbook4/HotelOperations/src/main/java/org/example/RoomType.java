@@ -1,2 +1,6 @@
-package org.example;public enum RoomType {
+package org.example;
+
+public enum RoomType {
+    King,
+    DOUBLE,
 }
